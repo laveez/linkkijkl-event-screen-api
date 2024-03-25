@@ -50,11 +50,9 @@ app.get('/lunch', async (req, res) => {
 
 app.get('/sponsors', async (req, res) => {
   try {
-    const response = await axios.get('https://linkkijkl.fi/');
-    const $ = cheerio.load(response.data); // use cheerio to parse HTML
-    const imageUrls = $('.elementor-carousel-image').map((i, el) => {
-      return $(el).css('background-image').replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
-    }).get();
+    const response = await axios.get('https://linkkijkl.fi/api/sponsors.json');
+    const sponsors = response.data;
+    const imageUrls = Object.keys(sponsors).map(key => `https://linkkijkl.fi${sponsors[key].image}`);
     res.send(imageUrls);
   } catch (err) {
     res.status(500).send(err);
