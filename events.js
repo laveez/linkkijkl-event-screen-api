@@ -34,11 +34,11 @@ router.get('/algo', async (req, res) => {
     const $ = cheerio.load(html);
     const events = [];
     $('article.eventlist-event.eventlist-event--upcoming').each((i, el) => {
-      const title = $(el).find('a.eventlist-title-link').text();
+      const summary = $(el).find('a.eventlist-title-link').text();
       const date = $(el).find('time.event-date').attr('datetime');
-      events.push({ title, date });
+      events.push({ summary, start: { date: date } });
     });
-    res.json(events);
+    res.json({items: events});
   } catch (err) {
     handleError(err, res);
   }

@@ -12,7 +12,7 @@ const getLunch = async (req, res, restaurantPageId) => {
     const date = new Date().toISOString().split('T')[0];
     const url = `${SEMMA_API_URL}?date=${date}&language=fi&onlyPublishedMenu=true&restaurantPageId=${restaurantPageId}`;
     const data = await fetchData(url);
-    res.send(data);
+    res.send(data?.LunchMenu?.SetMenus || []);
   } catch (err) {
     handleError(err, res);
   }
